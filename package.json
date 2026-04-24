@@ -1,0 +1,23 @@
+{
+  "name": "portfolinho",
+  "private": true,
+  "version": "0.1.0",
+  "description": "LTI portfolio tool for Canvas LMS",
+  "packageManager": "pnpm@9.0.0",
+  "engines": { "node": ">=20.0.0" },
+  "scripts": {
+    "dev": "concurrently -n web,server -c cyan,green \"pnpm --filter @portfolinho/web dev\" \"pnpm --filter @portfolinho/server dev\"",
+    "build": "pnpm --filter @portfolinho/db build && pnpm --filter @portfolinho/web build && pnpm --filter @portfolinho/server build",
+    "db:generate": "pnpm --filter @portfolinho/db generate",
+    "db:migrate": "pnpm --filter @portfolinho/db migrate",
+    "db:studio": "pnpm --filter @portfolinho/db studio",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.8.3"
+  },
+  "pnpm": {
+    "workspacePackages": ["apps/*", "packages/*"]
+  }
+}
