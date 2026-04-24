@@ -1,0 +1,32 @@
+# Sandbox-override — lägg till Traefik-routing och Canvas-integration
+# Används tillsammans med base-filen:
+#   docker compose -f docker-compose.yml -f docker-compose.sandbox.yml up -d
+
+services:
+
+  server:
+    environment:
+      # CA-cert för att lita på sandbox self-signed TLS (Canvas JWKS-anrop)
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/sandbox-ca.crt
+    volumes:
+      - /opt/poc-platform/traefik/certs/sandbox.local.crt:/etc/ssl/certs/sandbox-ca.crt:ro
+    extra_hosts:
+      # Server-containern behöver nå Canvas JWKS via Traefik
+      - "canvas.sandbox.local:172.23.0.10"
+
+  web:
+    # Exponera INTE port direkt — Traefik hanterar inkommande trafik
+    ports: !reset []
+    networks:
+      - infra-shared
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=infra-shared"
+      - "traefik.http.routers.portfolinho.rule=Host(`portfolinho.sandbox.local`)"
+      - "traefik.http.routers.portfolinho.entrypoints=websecure"
+      - "traefik.http.routers.portfolinho.tls=true"
+      - "traefik.http.services.portfolinho.loadbalancer.server.port=80"
+
+networks:
+  infra-shared:
+    external: true

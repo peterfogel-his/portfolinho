@@ -1,3 +1,4 @@
+import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
@@ -26,9 +27,7 @@ app.route('/api/artefakter', artefaktRoutes)
 app.route('/api/canvas',     canvasRoutes)
 
 const port = Number(process.env.PORT ?? 3001)
-console.log(`Portfolinho server → http://localhost:${port}`)
 
-export default {
-  port,
-  fetch: app.fetch,
-}
+serve({ fetch: app.fetch, port }, () => {
+  console.log(`Portfolinho server → http://localhost:${port}`)
+})

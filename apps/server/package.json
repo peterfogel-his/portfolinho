@@ -2,7 +2,7 @@
   "name": "@portfolinho/server",
   "private": true,
   "version": "0.1.0",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@portfolinho/db": "workspace:*",
+    "@hono/node-server": "^1.13.7",
     "better-auth": "^1.2.7",
     "hono": "^4.6.3",
+    "jose": "^5.9.6",
     "ltijs": "^5.9.3",
     "pg": "^8.13.1",
     "zod": "^3.25.76"

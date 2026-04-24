@@ -18,6 +18,9 @@
     "typescript": "^5.8.3"
   },
   "pnpm": {
-    "workspacePackages": ["apps/*", "packages/*"]
+    "workspacePackages": ["apps/*", "packages/*"],
+    "overrides": {
+      "esbuild": "0.19.12"
+    }
   }
 }
